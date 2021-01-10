@@ -42,7 +42,7 @@ if(isset($_SESSION['user_login']))
 				<?php
 			  include("connect.php");
 			  //$result=mysqli_query($con,"select * from setreminder");  
-			  $result=mysqli_query($con,"SELECT * from setreminder JOIN admin ON setreminder.username=admin.username where setreminder.username='$username1'");  
+			  $result=mysqli_query($con,"SELECT *,setreminder.status,setreminder.email,setreminder.id from setreminder JOIN admin ON setreminder.username=admin.username where setreminder.username='$username1'");  
 			   while( $row=mysqli_fetch_assoc($result))
 			   {
 			    ?>

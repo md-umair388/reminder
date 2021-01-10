@@ -16,10 +16,10 @@ if(isset($_SESSION['user_login']))
 <form>
 <h2>Today is <?php echo date("l,dS F Y, h:i:sa")?></h2>
 <a href="setReminder.php">Set Reminder</a></br>
-<a href="modifyReminder.php">Modify Reminder</a></br>
-<a href="disableReminder.php">Disable Reminder</a></br>
-<a href="deleteReminder.php">Delete Reminder</a></br>
-<a href="enableReminder.php">Enable Reminder</a></br>
+<a href="modify1Reminder.php">Modify Reminder</a></br>
+<a href="disable1Reminder.php">Disable Reminder</a></br>
+<a href="delete1Reminder.php">Delete Reminder</a></br>
+<a href="enable1Reminder.php">Enable Reminder</a></br>
 <a href="viewReminder.php">View Reminder</a>
 </form>
 

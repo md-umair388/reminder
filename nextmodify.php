@@ -1,16 +1,8 @@
-<?php  session_start();
-if(isset($_SESSION['user_login']))
-{
-	include("connect.php");
- 	$id=$_SESSION['user_login'];
-	$result1=mysqli_query($con,"select * from admin where id='$id'");
-	$row1=mysqli_fetch_assoc($result1);
-?>
 <?php
-		 if(isset($_POST['confirm']))
+$id=$_GET['data_id'];
+if(isset($_POST['confirm']))
 			{
-				  $id=$_GET['data_id'];
-				  $date=$_POST['date'];
+			      $id=$_GET['data_id'];
 				  $subject=$_POST['subject'];
 				  $description=$_POST['description'];
 				  $email=$_POST['email'];
@@ -24,7 +16,7 @@ if(isset($_SESSION['user_login']))
 				  }
 				  $status=1;
 			      include("connect.php");
-				  mysqli_query($con,"update setreminder set date='$date',subject='$subject',description='$description',email='$email',contact='$contact',sms='$sms',recur='$recur',status=1 where id='$id'");
+				  mysqli_query($con,"update setreminder set subject='$subject',description='$description',email='$email',contact='$contact',sms='$sms',recur='$recur',status=1 where id=$id");
 		           if(mysqli_affected_rows($con)==1)
 			        {   ?><script> alert("Reminder Set");
 							window.location="viewReminder.php";
@@ -37,32 +29,23 @@ if(isset($_SESSION['user_login']))
 					</script><?php
 				  }
 			}
-		  ?>
-<html>
-	<head>
-		<title>Modify Reminder</title>
-	</head>
-</html>
-			<?php
-							include("connect.php");
-							$id=$_GET['data_id'];
-							$result=mysqli_query($con,"select * from setreminder where id=$id and status=1");
+?>
+<?php 
+                       include("connect.php");
+							$result=mysqli_query($con,"select * from setreminder where status=1 and id=$id ");
 							$row = mysqli_fetch_assoc($result);
-						?>
-<form method="POST" action="" onsubmit="return validate()">
-			<table align="">
-				
-				<tr>
-					<td>Select Date:</td>
-					<td>
-						<input type="date" name="date" id="date" required value="<?php echo $row['date']?>">
-					</td>
-				</tr>
-				<tr>
+			?>
+			   <form method="POST" action="" onsubmit="return validate()">
+			   <table align="">
+			   <tr>
+					<td>Date:</td>
+					<td><?php echo $row['date'];?></td>
+			   </tr>
+			   <tr>
 					<td>Subject:</td>
 					<td>
 						<select id="subject" name="subject">
-							<option value="<?php echo $row['subject']?>"><?php echo $row['subject']?></option>
+							<option value="<?php echo $row['subject'];?>"><?php echo $row['subject'];?></option>
 							<option value="Birthday">Birthday</option>
 							<option value="Anniversary">Anniversary</option>
 							<option value="Farewell">Farewell</option>
@@ -71,14 +54,7 @@ if(isset($_SESSION['user_login']))
 						</select>
 					</td>
 				</tr>
-				<tr>
-					<td>Reminders:</td>
-					<td>
-						<select>
-							<option value=""><?php echo $row1['username']." : ".$row['description']?></option>
-						</select>
-					</td>
-				</tr>
+				
 				<tr>
 					<td>Add description:</td>
 					<td>
@@ -118,20 +94,9 @@ if(isset($_SESSION['user_login']))
 					<td><td><a href="home.php">Back</a></td></td>
 					<td><button type="submit" name="confirm" id="confirm">Confirm</button></td>
 				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td><a href="logout.php">Logout</a></td>
-					
-				</tr>
-			</table>
-</form>
-<?php 
-}
-else
-{
-	header("Location:login.php");
-}
 
-?>
+			   </table>
+			   </form>
+
+			
+

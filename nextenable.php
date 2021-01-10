@@ -1,12 +1,6 @@
-<?php  session_start();
-if(isset($_SESSION['user_login']))
-{
-	include("connect.php");
- 	$id=$_SESSION['user_login'];
-	$result1=mysqli_query($con,"select * from admin where id='$id'");
-	$row1=mysqli_fetch_assoc($result1);
-?>
+
 <?php
+	$id=$_GET['data_id'];
 		 if(isset($_POST['confirm']))
 			{
 				  $id=$_GET['data_id'];
@@ -24,7 +18,7 @@ if(isset($_SESSION['user_login']))
 				  }
 				  $status=1;
 			      include("connect.php");
-				  mysqli_query($con,"update setreminder set date='$date',subject='$subject',description='$description',email='$email',contact='$contact',sms='$sms',recur='$recur',status=1 where id='$id'");
+				  mysqli_query($con,"update setreminder set date='$date',subject='$subject',description='$description',email='$email',contact='$contact',sms='$sms',recur='$recur',status=1 where id=$id");
 		           if(mysqli_affected_rows($con)==1)
 			        {   ?><script> alert("Reminder Set");
 							window.location="viewReminder.php";
@@ -40,42 +34,31 @@ if(isset($_SESSION['user_login']))
 		  ?>
 <html>
 	<head>
-		<title>Modify Reminder</title>
+		<title>Enable Reminder</title>
 	</head>
 </html>
 			<?php
 							include("connect.php");
-							$id=$_GET['data_id'];
-							$result=mysqli_query($con,"select * from setreminder where id=$id and status=1");
-							$row = mysqli_fetch_assoc($result);
+							$result=mysqli_query($con,"select * from setreminder where id=$id and status=0");
+							
+						$row = mysqli_fetch_assoc($result)
+							
 						?>
-<form method="POST" action="" onsubmit="return validate()">
+						
+						<form method="POST" action="" onsubmit="return validate()">
 			<table align="">
 				
 				<tr>
 					<td>Select Date:</td>
 					<td>
-						<input type="date" name="date" id="date" required value="<?php echo $row['date']?>">
+						<?php echo $row['date']?>
 					</td>
 				</tr>
 				<tr>
 					<td>Subject:</td>
 					<td>
-						<select id="subject" name="subject">
-							<option value="<?php echo $row['subject']?>"><?php echo $row['subject']?></option>
-							<option value="Birthday">Birthday</option>
-							<option value="Anniversary">Anniversary</option>
-							<option value="Farewell">Farewell</option>
-							<option value="TaskDeadline">TaskDeadline</option>
-							<option value="Meeting">Meeting</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>Reminders:</td>
-					<td>
 						<select>
-							<option value=""><?php echo $row1['username']." : ".$row['description']?></option>
+							<option value=""><?php echo $row['subject']?></option>
 						</select>
 					</td>
 				</tr>
@@ -100,7 +83,7 @@ if(isset($_SESSION['user_login']))
 					</td>
 				</tr>
 				<tr>
-					<td>SMS:</td>
+					<td>SMS No:</td>
 					<td>
 						<input type="text" name="sms" id="sms" required value="<?php echo $row['sms']?>">
 					</td>
@@ -108,10 +91,10 @@ if(isset($_SESSION['user_login']))
 				<tr>
 					<td>Recur for next:</td>
 					<td>
-						<input type="checkbox" name="recur[]" value="7">7 Days<br>
-						<input type="checkbox" name="recur[]" value="5">5 Days<br>
-						<input type="checkbox" name="recur[]" value="3">3 Days<br>
-						<input type="checkbox" name="recur[]" value="2">2 Days<br>
+						<input type="checkbox" name="recur[]" value="<?php echo $row['recur']?>">7 Days<br>
+						<input type="checkbox" name="recur[]" value="<?php echo $row['recur']?>">5 Days<br>
+						<input type="checkbox" name="recur[]" value="<?php echo $row['recur']?>">3 Days<br>
+						<input type="checkbox" name="recur[]" value="<?php echo $row['recur']?>">2 Days<br>
 					</td>
 				</tr>
 				<tr>
@@ -127,11 +110,3 @@ if(isset($_SESSION['user_login']))
 				</tr>
 			</table>
 </form>
-<?php 
-}
-else
-{
-	header("Location:login.php");
-}
-
-?>
